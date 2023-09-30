@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 
 @Entity
 public class Telefone extends DefaultEntity {
-
     private String codigoArea;
     private String numero;
 

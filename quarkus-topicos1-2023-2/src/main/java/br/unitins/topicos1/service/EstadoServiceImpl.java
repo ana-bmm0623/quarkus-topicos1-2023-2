@@ -24,48 +24,47 @@ public class EstadoServiceImpl implements EstadoService {
         novoEstado.setNome(dto.getNome());
         novoEstado.setSigla(dto.getSigla());
 
-        // está inserindo no banco de dados
         repository.persist(novoEstado);
 
-        return EstadoResponseDTO.valueof(novoEstado);
+        return EstadoResponseDTO.valueOf(novoEstado);
     }
 
     @Override
     @Transactional
     public EstadoResponseDTO update(EstadoDTO dto, Long id) {
-       
+        
         Estado estado = repository.findById(id);
         if (estado != null) {
             estado.setNome(dto.getNome());
             estado.setSigla(dto.getSigla());
-        } else {
+        } else 
             throw new NotFoundException();
-        }
 
-        return EstadoResponseDTO.valueof(estado);
+        return EstadoResponseDTO.valueOf(estado);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id)) {
+        if (!repository.deleteById(id)) 
             throw new NotFoundException();
-        }
     }
 
     @Override
     public EstadoResponseDTO findById(Long id) {
-        return EstadoResponseDTO.valueof(repository.findById(id));
+        return EstadoResponseDTO.valueOf(repository.findById(id));
     }
 
     @Override
     public List<EstadoResponseDTO> findByNome(String nome) {
-        return repository.findByNome(nome).stream().map(e -> EstadoResponseDTO.valueof(e)).toList();
+        return repository.findByNome(nome).stream()
+            .map(e -> EstadoResponseDTO.valueOf(e)).toList();
     }
 
     @Override
     public List<EstadoResponseDTO> findByAll() {
-        return repository.listAll().stream().map(e -> EstadoResponseDTO.valueof(e)).toList();
+        return repository.listAll().stream()
+            .map(e -> EstadoResponseDTO.valueOf(e)).toList();
     }
-
+    
 }

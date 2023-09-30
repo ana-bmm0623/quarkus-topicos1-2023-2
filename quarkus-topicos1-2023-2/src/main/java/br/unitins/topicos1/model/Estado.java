@@ -39,4 +39,7 @@ public class Estado extends DefaultEntity {
     public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
+
+    
+
 }

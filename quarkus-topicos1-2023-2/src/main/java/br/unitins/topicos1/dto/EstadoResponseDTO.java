@@ -6,7 +6,10 @@ public record EstadoResponseDTO(
         Long id,
         String nome,
         String sigla) {
-            public static EstadoResponseDTO valueof(Estado estado){
-                return new EstadoResponseDTO(estado.getId(), estado.getNome(), estado.getSigla());
-            }
-        }
+    public static EstadoResponseDTO valueOf(Estado estado) {
+        return new EstadoResponseDTO(
+                estado.getId(),
+                estado.getNome(),
+                estado.getSigla());
+    }
+}

@@ -17,5 +17,6 @@ public interface EstadoService {
 
     public List<EstadoResponseDTO> findByNome(String nome);
 
-    public List<EstadoResponseDTO> findByAll();
+    public List<EstadoResponseDTO> findByAll(); 
+    
 }

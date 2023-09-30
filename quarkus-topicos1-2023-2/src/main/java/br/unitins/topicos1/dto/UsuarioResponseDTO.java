@@ -9,12 +9,16 @@ public record UsuarioResponseDTO(
     String nome,
     String login,
     List<TelefoneDTO> listaTelefone
-) {
+) { 
     public static UsuarioResponseDTO valueOf(Usuario usuario){
+
         return new UsuarioResponseDTO(
-        usuario.getId(),
-        usuario.getNome(),
-        usuario.getLogin(), 
-        usuario.getListaTelefone().stream().map(t -> TelefoneDTO.valueOf(t)).toList());
+            usuario.getId(), 
+            usuario.getNome(),
+            usuario.getLogin(),
+            usuario.getListaTelefone()
+                .stream()
+                .map(t -> TelefoneDTO.valueOf(t)).toList()
+        );
     }
 }

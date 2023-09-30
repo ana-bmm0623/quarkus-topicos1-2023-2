@@ -6,6 +6,7 @@ import br.unitins.topicos1.dto.UsuarioDTO;
 import br.unitins.topicos1.dto.UsuarioResponseDTO;
 import br.unitins.topicos1.service.UsuarioService;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/usuarios")
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,39 +27,66 @@ public class UsuarioResource {
     UsuarioService service;
 
     @POST
-    public UsuarioResponseDTO insert(UsuarioDTO dto) {
-        return service.insert(dto);
+    public Response insert(UsuarioDTO dto) {
+        UsuarioResponseDTO responseDTO = service.insert(dto);
+        return Response.status(Response.Status.CREATED)
+                .entity(responseDTO)
+                .build();
     }
 
     @PUT
+    @Transactional
     @Path("/{id}")
-    public UsuarioResponseDTO uptadate(UsuarioDTO dto, @PathParam("id") Long id) {
-        return service.update(dto, id);
+    public Response update(UsuarioDTO dto, @PathParam("id") Long id) {
+        UsuarioResponseDTO responseDTO = service.update(dto, id);
+        if (responseDTO != null) {
+            return Response.status(Response.Status.OK)
+                    .entity(responseDTO)
+                    .build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .build();
+        }
+    }
+
+    @DELETE
+    @Transactional
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Long id) {
+        service.delete(id);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    
+
+    @GET
+    public Response findAll() {
+        List<UsuarioResponseDTO> usuarios = service.findByAll();
+        return Response.status(Response.Status.OK)
+                .entity(usuarios)
+                .build();
     }
 
     @GET
-    public List<UsuarioResponseDTO> findAll() {
-        return service.findByAll();
-
-        // return repository.listAll();
-    }
-
-    @GET
     @Path("/{id}")
-    public UsuarioResponseDTO findById(@PathParam("id") Long id) {
-        return service.findById(id);
+    public Response findById(@PathParam("id") Long id) {
+        UsuarioResponseDTO usuario = service.findById(id);
+        if (usuario != null) {
+            return Response.status(Response.Status.OK)
+                    .entity(usuario)
+                    .build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .build();
+        }
     }
 
     @GET
     @Path("/search/nome/{nome}")
-    public List<UsuarioResponseDTO> findByNome(@PathParam("nome") String nome) {
-        return service.findByNome(nome);
-        // return repository.findByNome(nome);
+    public Response findByNome(@PathParam("nome") String nome) {
+        List<UsuarioResponseDTO> usuarios = service.findByNome(nome);
+        return Response.status(Response.Status.OK)
+                .entity(usuarios)
+                .build();
     }
 
-    @DELETE
-    @Path("/{id}")
-    public void delete(@PathParam("id") Long id) {
-        service.delete(id);
-    }
 }

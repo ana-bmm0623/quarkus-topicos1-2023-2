@@ -10,12 +10,15 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Usuario extends DefaultEntity {
+
     private String nome;
     private String login;
     private String senha;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "usuario_telefone", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_telefone"))
+    @JoinTable(name="usuario_telefone",
+        joinColumns= @JoinColumn(name="id_usuario"),
+        inverseJoinColumns = @JoinColumn(name="id_telefone") )
     private List<Telefone> listaTelefone;
 
     public String getNome() {

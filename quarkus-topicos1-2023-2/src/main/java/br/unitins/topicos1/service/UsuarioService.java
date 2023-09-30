@@ -17,5 +17,6 @@ public interface UsuarioService {
 
     public List<UsuarioResponseDTO> findByNome(String nome);
 
-    public List<UsuarioResponseDTO> findByAll();
+    public List<UsuarioResponseDTO> findByAll(); 
+    
 }
